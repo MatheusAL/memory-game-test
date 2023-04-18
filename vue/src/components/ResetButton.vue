@@ -21,7 +21,7 @@ export default {
 /* Reset button styles here */
   .reset-button {
     background-color: #33ab68;
-    border-radius: 50px;
+    border-radius: 8px;
     text-align: center;
     width: 350px;
     font-weight: bold;

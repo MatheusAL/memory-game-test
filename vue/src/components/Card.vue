@@ -1,8 +1,8 @@
 <template>
-    <div v-if="card.isVisible" class="card px-3 py-3" @click="clickedCard(card.id)">
+    <div v-if="card.isVisible" class="card px-3 py-3 justify-content-center align-items-center" @click="clickedCard(card.id)">
       <!-- Card content here -->
-      <span>{{ card.id }}</span>
-      <p>{{ card.name }}</p>
+      <span>Card ID: {{ card.id }}</span>
+      <span>Card name: {{ card.name }}</span>
     </div>
     <div v-else class="card px-3 py-3" @click="clickedCard(card.id)" />
 

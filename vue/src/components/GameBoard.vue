@@ -1,6 +1,6 @@
 <template>
-    <div class="game-board">
-      <h1 class="game-title d-flex justify-content-center">Memory Game</h1>
+    <div v-if="gameStarted" class="game-board">
+      <h1 class="game-title d-flex justify-content-center pt-3">Memory Game</h1>
       <!-- Game board content here -->
       <div class="game-board-grid container mt-5 pt-3 pb-3 px-3">
         <card v-for="card in shuffledCards" :card="card" :key="card.id" @flippedCard="flipCard"/>
@@ -9,6 +9,9 @@
         <h1 class="game-movements">Number of movements: {{ numberOfMoves }} </h1>
         <reset-button @resetGame="resetGame"/>
       </div>
+    </div>
+    <div v-else>
+      <h1>You won the game!</h1>
     </div>
 </template>
   
@@ -96,7 +99,9 @@ export default {
       duplicatedCards: [],
       numberOfMoves: 0,
       cardsFlipped: 0,
-      selectedCardsID: []
+      selectedCardsID: [],
+      gameStarted: true,
+      points: 0,
     };
   },
   created () {
@@ -112,7 +117,7 @@ export default {
   computed: {
     shuffledCards () {
       return this.duplicatedCards.sort(() => Math.random() - 0.5);
-    }
+    },
   },
   methods: {
     /* Game board methods here */
@@ -120,17 +125,18 @@ export default {
       const cards1 = [...this.cards];
       const cards2 = this.cards.map(obj => ({ ...obj }));
       const emptyArray = [];
-      const lastIndex = cards1[cards1.length-1].id;
+      const lastIndex = cards1[cards1.length - 1].id;
       cards2.forEach((card) => {
         card.id = card.id + lastIndex;
       });
       this.duplicatedCards = emptyArray.concat(cards1, cards2);
+      this.gameStarted = true;
     },
     flipCard(id) {
       if (this.cardsFlipped === 2) {
         return;
       }
-      const foundCard = this.shuffledCards.find((card)=> card.id === id);
+      const foundCard = this.duplicatedCards.find((card)=> card.id === id);
       if (foundCard) {
         if (foundCard.isVisible) {
           this.cardsFlipped = this.cardsFlipped - 1;
@@ -150,6 +156,11 @@ export default {
       if (card1.name === card2.name) {
         card1.isFound = true;
         card2.isFound = true;
+        this.points = this.points + 1;
+        //If the user found all pairs of cards, end the game
+        if (this.points === this.cards.length) {
+          this.gameStarted = false;
+        }
       }
       // Reset all cards that are not found
       setTimeout(() => {
@@ -167,6 +178,11 @@ export default {
       this.numberOfMoves = 0;
       this.cardsFlipped = 0;
       this.selectedCardsID = [];
+      this.shuffledCards = this.shuffledCards.map((card) => {
+        if (!card.isFound) {
+          card.isVisible = false
+        }
+      });
       this.startGame();
     }
   },
@@ -184,6 +200,7 @@ export default {
   }
 
   .game-board-grid {
+    border-radius: 8px;
     background-color: #fff;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
