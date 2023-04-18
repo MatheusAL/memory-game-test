@@ -122,7 +122,7 @@ export default {
   methods: {
     /* Game board methods here */
     startGame () {
-      const cards1 = [...this.cards];
+      const cards1 = this.cards.map(obj => ({ ...obj }));//[...this.cards];
       const cards2 = this.cards.map(obj => ({ ...obj }));
       const emptyArray = [];
       const lastIndex = cards1[cards1.length - 1].id;
