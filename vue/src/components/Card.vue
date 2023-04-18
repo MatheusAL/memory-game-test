@@ -28,5 +28,9 @@ export default {
 /* Card styles here */
   .card {
     background-color: #33ab68;
+    transition: transform 0.3s ease;
+  }
+  .card:hover {
+    transform: scale(1.1);
   }
 </style>
