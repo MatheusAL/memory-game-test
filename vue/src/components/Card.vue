@@ -4,7 +4,7 @@
       <span>Card ID: {{ card.id }}</span>
       <span>Card name: {{ card.name }}</span>
     </div>
-    <div v-else class="card px-3 py-3" @click="clickedCard(card.id)" />
+    <div v-else class="card card-visible px-3 py-3" @click="clickedCard(card.id)" />
 
   </template>
   
@@ -27,8 +27,11 @@ export default {
 <style scoped>
 /* Card styles here */
   .card {
-    background-color: #33ab68;
+    background-color: grey;
     transition: transform 0.3s ease;
+  }
+  .card-visible {
+    background-color: #33ab68;
   }
   .card:hover {
     transform: scale(1.1);
