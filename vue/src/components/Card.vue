@@ -1,22 +1,32 @@
 <template>
-    <div class="card">
+    <div v-if="card.isVisible" class="card px-3 py-3" @click="clickedCard(card.id)">
       <!-- Card content here -->
+      <span>{{ card.id }}</span>
+      <p>{{ card.name }}</p>
     </div>
+    <div v-else class="card px-3 py-3" @click="clickedCard(card.id)" />
+
   </template>
   
-  <script>
-  export default {
-    name: 'Card',
-    props: {
-      /* Card properties here */
-    },
-    methods: {
-      /* Card methods here */
+<script>
+export default {
+  name: 'Card',
+  props: {
+    card: Object,
+    /* Card properties here */
+  },
+  methods: {
+    /* Card methods here */
+    clickedCard (id) {
+      this.$emit('flippedCard', id);
     }
-  };
-  </script>
+  }
+};
+</script>
   
-  <style scoped>
-  /* Card styles here */
-  </style>
-  
+<style scoped>
+/* Card styles here */
+  .card {
+    background-color: #33ab68;
+  }
+</style>

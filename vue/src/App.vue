@@ -13,4 +13,5 @@ export default {
 
 <style>
 /* Global styles here */
+
 </style>
