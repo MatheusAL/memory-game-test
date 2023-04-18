@@ -5,3 +5,19 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 ## Recommended IDE Setup
 
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+
+## Progress
+
+- Create board and display cards
+- Let user click on the cards
+- Verify if the use scored a point and add delay while flipping cards
+- Add reset button
+- Add end game message
+
+## Improvements
+
+- Create flipping animation
+- Let the user decide the number of cards
+- Create end game animation
+- Add delay on initial flip
+- Add shuffle animation
