@@ -11,6 +11,7 @@ export default {
   methods: {
     reset() {
       /* Reset logic here */
+      this.$emit('resetGame');
     }
   }
 };
@@ -22,7 +23,7 @@ export default {
     background-color: #33ab68;
     border-radius: 50px;
     text-align: center;
-    width: 200px;
+    width: 350px;
     font-weight: bold;
   }
 </style>

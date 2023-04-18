@@ -7,7 +7,7 @@
       </div>
       <div class="game-info d-flex container mt-3 justify-content-between">
         <h1 class="game-movements">Number of movements: {{ numberOfMoves }} </h1>
-        <reset-button />
+        <reset-button @resetGame="resetGame"/>
       </div>
     </div>
 </template>
@@ -95,19 +95,12 @@ export default {
       ],
       duplicatedCards: [],
       numberOfMoves: 0,
-      cardsFlipped: 0
+      cardsFlipped: 0,
+      selectedCardsID: []
     };
   },
   created () {
-    const cards1 = [...this.cards];
-    const cards2 = [...this.cards];
-    //const cards3 = structuredClone(cards2);
-    const emptyArray = [];
-    const lastIndex = cards1[cards1.length-1].id;
-    cards2.forEach((card) => {
-      card.id = card.id + lastIndex;
-    });
-    this.duplicatedCards = emptyArray.concat(cards1, cards2);
+    this.startGame();
   },
   watch: {
     cardsFlipped () {
@@ -123,21 +116,40 @@ export default {
   },
   methods: {
     /* Game board methods here */
+    startGame () {
+      const cards1 = [...this.cards];
+      const cards2 = this.cards.map(obj => ({ ...obj }));
+      const emptyArray = [];
+      const lastIndex = cards1[cards1.length-1].id;
+      cards2.forEach((card) => {
+        card.id = card.id + lastIndex;
+      });
+      this.duplicatedCards = emptyArray.concat(cards1, cards2);
+    },
     flipCard(id) {
+      if (this.cardsFlipped === 2) {
+        return;
+      }
       const foundCard = this.shuffledCards.find((card)=> card.id === id);
       if (foundCard) {
         if (foundCard.isVisible) {
-          this.cardsFlipped = this.cardsFlipped - 1;  
+          this.cardsFlipped = this.cardsFlipped - 1;
+          this.selectedCardsID.pop();
+          
         } else {
           this.cardsFlipped = this.cardsFlipped + 1;
-        } 
+          this.selectedCardsID.push(id);
+        }
         foundCard.isVisible = !foundCard.isVisible;
       }
     },
     verifyMovement () {
       this.numberOfMoves = this.numberOfMoves + 1;
-      if (this.card1 === this.card2) {
-        console.log('found');
+      const card1 = this.shuffledCards.find((card) => card.id === this.selectedCardsID[0]);
+      const card2 = this.shuffledCards.find((card) => card.id === this.selectedCardsID[1]);
+      if (card1.name === card2.name) {
+        card1.isFound = true;
+        card2.isFound = true;
       }
       // Reset all cards that are not found
       setTimeout(() => {
@@ -147,7 +159,15 @@ export default {
           }
         });
       }, "750");
+      // Reset selected cards
       this.cardsFlipped = 0;
+      this.selectedCardsID = [];
+    },
+    resetGame () {
+      this.numberOfMoves = 0;
+      this.cardsFlipped = 0;
+      this.selectedCardsID = [];
+      this.startGame();
     }
   },
 };
